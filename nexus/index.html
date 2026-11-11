@@ -32,7 +32,7 @@
 <body>
 <main>
   <div class="mark" role="img" aria-label="NEXUS">
-    <img src="nexus-logo.png" width="120" height="120" alt="NEXUS — the wolf mark" style="border-radius:26px">
+    <div id="torus" style="width:110px;height:110px;position:relative;flex-shrink:0;display:inline-block;" role="img" aria-label="NEXUS — the animated torus logomark"></div>
     <span class="label">NEXUS</span>
   </div>
 
@@ -46,5 +46,62 @@
     <p>Your conversations are safe and will be here when we return.</p>
   </div>
 </main>
+<script>
+(function () {
+  // verbatim port of NxTorusLogo.svelte — the animated horn-torus logomark
+  var size = 160, R = size * 0.290, scale = (size * 0.425) / R;
+  var TILT = 15 * Math.PI / 180, sinT = Math.sin(TILT), cosT = Math.cos(TILT);
+  var cx = size / 2, cy = size / 2;
+  var nLat = 12, nMer = 24, nSteps = 72, AMBER = '#d58200', AMBER2 = '#f0a020';
+  var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', '0 0 ' + size + ' ' + size);
+  svg.setAttribute('width', '110'); svg.setAttribute('height', '110');
+  svg.setAttribute('fill', 'none');
+  svg.style.position = 'absolute'; svg.style.inset = '0'; svg.style.overflow = 'visible';
+  document.getElementById('torus').appendChild(svg);
+  var NS = 'http://www.w3.org/2000/svg';
+  function pt(u, v, uOff) {
+    var px = cx + scale * R * (1 + Math.cos(v)) * Math.cos(u + uOff);
+    var py = cy - scale * (R * (1 + Math.cos(v)) * Math.sin(u + uOff) * sinT + R * Math.sin(v) * cosT);
+    return px.toFixed(2) + ',' + py.toFixed(2);
+  }
+  var mer = [], lat = [], i, j, d, u, v;
+  for (i = 0; i < nMer; i++) { mer.push(document.createElementNS(NS, 'path')); }
+  for (i = 0; i < nLat; i++) { lat.push(document.createElementNS(NS, 'path')); }
+  mer.concat(lat).forEach(function (p) {
+    p.setAttribute('stroke', AMBER); p.setAttribute('stroke-width', '0.75');
+    p.setAttribute('stroke-linecap', 'round'); p.setAttribute('opacity', '0.85');
+    svg.appendChild(p);
+  });
+  var glow = document.createElementNS(NS, 'circle');
+  glow.setAttribute('cx', cx); glow.setAttribute('cy', cy); glow.setAttribute('r', R * 1.9);
+  glow.setAttribute('fill', AMBER2); glow.setAttribute('opacity', '0.05');
+  svg.insertBefore(glow, svg.firstChild);
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var uOff = 0, last = 0;
+  function draw() {
+    var du = uOff;
+    for (i = 0; i < nMer; i++) {
+      u = (i / nMer) * Math.PI * 2; d = '';
+      for (j = 0; j <= nSteps; j++) { v = (j / nSteps) * Math.PI * 2; d += (j ? 'L' : 'M') + pt(u, v, du); }
+      mer[i].setAttribute('d', d);
+    }
+    for (i = 0; i < nLat; i++) {
+      v = (i / nLat) * Math.PI * 2; d = '';
+      for (j = 0; j <= nSteps; j++) { u = (j / nSteps) * Math.PI * 2; d += (j ? 'L' : 'M') + pt(u, v, du); }
+      lat[i].setAttribute('d', d);
+    }
+  }
+  draw();
+  if (!reduced) {
+    function tick(t) {
+      if (!last) last = t;
+      uOff += (t - last) * 0.001 * (0.4 * Math.PI * 2 / 60); // 0.4 rpm
+      last = t; draw(); requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+})();
+</script>
 </body>
 </html>
