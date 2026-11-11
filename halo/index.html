@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scheduled maintenance — HALO</title>
+<style>
+  :root {
+    --ground:#f4efe2; --card:#fffdf8; --navy:#243547; --deep:#07162a;
+    --amber:#f0b429; --amber-text:#a86e00;
+    --line:rgba(148,132,100,.22); --muted:#948464;
+    --font:'Inter','Noto Sans TC',system-ui,'PingFang TC','Microsoft JhengHei',sans-serif;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+         background:var(--ground); color:var(--navy); font-family:var(--font);
+         line-height:1.75; padding:2rem 1.25rem; }
+  main { max-width:34rem; width:100%; background:var(--card); border:1px solid var(--line);
+         border-radius:14px; padding:2.6rem 2.4rem; text-align:center; }
+  .mark { display:inline-flex; flex-direction:column; align-items:center; margin-bottom:1.3rem; }
+  .mark svg { display:block; }
+  .mark .label { font-weight:600; letter-spacing:.14em; font-size:.95rem; color:var(--navy);
+                 margin-top:.55rem; }
+  .zh { font-size:1rem; margin:.4rem 0 1.3rem; }
+  .time { color:var(--amber-text); font-weight:600; }
+  hr { border:none; border-top:1px solid var(--line); margin:1.2rem 0; }
+  .en { font-size:.92rem; color:var(--muted); margin:.3rem 0; }
+  .note { font-size:.8rem; color:var(--muted); }
+  .note p { margin:.2rem 0; }
+</style>
+</head>
+<body>
+<main>
+  <div class="mark" role="img" aria-label="HALO">
+    <svg width="72" height="72" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+      <path d="M26 14 V86 M74 14 V86 M26 50 H74" stroke="#f0b429" stroke-width="13" stroke-linecap="round"/>
+    </svg>
+    <span class="label">HALO</span>
+  </div>
+
+  <p class="zh">HALO 伺服器現正進行定期維護，時間為香港時間<span class="time">晚上 11:00 至凌晨 2:30</span>。造成不便，敬請見諒。</p>
+  <hr>
+  <p class="en">The HALO servers are under scheduled maintenance from <span class="time">11:00 PM to 2:30 AM Hong Kong Time</span>. Sorry for the inconvenience caused.</p>
+
+  <hr>
+  <div class="note">
+    <p>你的對話紀錄安全無虞，我們回來後即可繼續。</p>
+    <p>Your conversations are safe and will be here when we return.</p>
+  </div>
+</main>
+</body>
+</html>
